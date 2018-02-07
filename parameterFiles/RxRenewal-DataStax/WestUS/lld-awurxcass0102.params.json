@@ -1,0 +1,74 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "West US"
+    },
+    "AppNameTag": {
+      "value": "rx-dev-fc-perf-cass"
+    },
+    "AppEnvTag": {
+      "value": "db"
+    },
+    "SecZoneTag": {
+      "value": "Sensitive Dev-Test"
+    },
+    "avName": {
+      "value": "rx-west-lld-fc-perf-cass"
+    },
+    "avUpdateDomainCount": {
+      "value": 3
+    },
+    "avFaultDomainCount": {
+      "value": 3
+    },
+    "ipAddress": {
+      "value": ""
+    },
+    "vmName": {
+      "value": "lld-awurxcass0102"
+    },
+    "vmSize": {
+      "value": "Standard_DS14_v2"
+    },
+    "osDiskSize": {
+      "value": 128
+    },
+    "managedDiskType": {
+      "value": "Premium_LRS"
+    },
+    "diskCount": {
+      "value": 4
+    },
+    "disk01Size": {
+      "value": 1024
+    },
+    "disk02Size": {
+      "value": 1024
+    },
+    "disk03Size": {
+      "value": 1024
+    },
+    "disk04Size": {
+      "value": 1024
+    },
+    "vnetResGrp": {
+      "value": "rxrdts-networkrg"
+    },
+    "vnetName": {
+      "value": "rxr-dts-vnet"
+    },
+    "subnetName": {
+      "value": "DB"
+    },
+    "diagStorAcctName": {
+      "value": "rxdevwestfcperfcassdiag"
+    }
+  },
+  "deploymentDetails": {
+    "subscriptionName": "Sensitive Dev-Test 2",
+    "resourceGroupName": "rx-west-lld-fc-perf-cass",
+    "templateFile": ".\\vm.baseline.single.dynamic.av.1.3.json"
+  }
+}
