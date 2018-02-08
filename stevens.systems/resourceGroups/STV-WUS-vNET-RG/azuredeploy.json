@@ -3,11 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {},
   "variables": {
-    "STV-WUS-vNET-01Prefix": "10.0.0.0/16",
-    "STV-WUS-vNET-01Subnet1Name": "Subnet-1",
-    "STV-WUS-vNET-01Subnet1Prefix": "10.0.0.0/24",
-    "STV-WUS-vNET-01Subnet2Name": "Subnet-2",
-    "STV-WUS-vNET-01Subnet2Prefix": "10.0.1.0/24"},
+    "STV-WUS-vNET-01Prefix": "172.16.0.0/16",
+    "STV-WUS-vNET-01Subnet1Name": "Production",
+    "STV-WUS-vNET-01Subnet1Prefix": "172.16.0.0/16"
+  },
   "resources": [
     {
       "name": "STV-WUS-vNET-01",
