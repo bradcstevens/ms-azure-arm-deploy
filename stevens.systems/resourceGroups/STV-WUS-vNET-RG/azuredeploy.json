@@ -29,12 +29,6 @@
             "properties": {
               "addressPrefix": "[variables('STV-WUS-vNET-01Subnet1Prefix')]"
             }
-          },
-          {
-            "name": "[variables('STV-WUS-vNET-01Subnet2Name')]",
-            "properties": {
-              "addressPrefix": "[variables('STV-WUS-vNET-01Subnet2Prefix')]"
-            }
           }
         ]
       }
