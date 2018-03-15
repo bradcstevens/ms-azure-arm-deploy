@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {
+    "CDW-WUS-vNET-RGPrefix": "172.16.0.0/16",
+    "CDW-WUS-vNET-RGSubnet1Name": "Gateway",
+    "CDW-WUS-vNET-RGSubnet1Prefix": "172.16.0.0/29",
+    "CDW-WUS-vNET-RGSubnet2Name": "DMZ",
+    "CDW-WUS-vNET-RGSubnet2Prefix": "172.16.0.8/29",
+    "CDW-WUS-vNET-RGSubnet3Name": "Production",
+    "CDW-WUS-vNET-RGSubnet3Prefix": "172.16.1.0/24"
+  },
+  "resources": [
+    {
+      "name": "CDW-WUS-vNET-RG",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "CDW-WUS-vNET-RG"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('CDW-WUS-vNET-RGPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('CDW-WUS-vNET-RGSubnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('CDW-WUS-vNET-RGSubnet1Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('CDW-WUS-vNET-RGSubnet2Name')]",
+            "properties": {
+              "addressPrefix": "[variables('CDW-WUS-vNET-RGSubnet2Prefix')]"
+            }
+          },
+          {
+            "name": "[variables('CDW-WUS-vNET-RGSubnet3Name')]",
+            "properties": {
+              "addressPrefix": "[variables('CDW-WUS-vNET-RGSubnet3Prefix')]"
+            }
+          }
+        ]
+      }
+    }],
+  "outputs": {}
+}

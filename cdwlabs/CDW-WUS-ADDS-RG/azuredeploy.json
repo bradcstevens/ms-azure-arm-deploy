@@ -1,0 +1,140 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "cdwwusaddssaType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "CDW-WUS-ADDS-RGName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CDW-WUS-ADDS-RGAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "CDW-WUS-ADDS-RGAdminPassword": {
+      "type": "securestring"
+    },
+    "CDW-WUS-ADDS-RGWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ]
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "CDW-WUS-vNET-RG"
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "CDW-WUS-vNET-RG"
+    }},
+  "variables": {
+    "cdwwusaddssaName": "cdwwusaddssa",
+    "CDW-WUS-ADDS-RGImagePublisher": "MicrosoftWindowsServer",
+    "CDW-WUS-ADDS-RGImageOffer": "WindowsServer",
+    "CDW-WUS-ADDS-RGOSDiskName": "CDW-WUS-ADDS-RGOSDisk",
+    "CDW-WUS-ADDS-RGVmSize": "Standard_A2_v2",
+    "CDW-WUS-ADDS-RGVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "CDW-WUS-ADDS-RGSubnetRef": "[concat(variables('CDW-WUS-ADDS-RGVnetID'), '/subnets/', 'Production')]",
+    "CDW-WUS-ADDS-RGStorageAccountContainerName": "vhds",
+    "CDW-WUS-ADDS-RGNicName": "[concat(parameters('CDW-WUS-ADDS-RGName'), 'NetworkInterface')]"},
+  "resources": [
+    {
+      "name": "[variables('cdwwusaddssaName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-01-01",
+      "sku": {
+        "name": "[parameters('cdwwusaddssaType')]"
+      },
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "cdwwusaddssa"
+      },
+      "kind": "Storage"
+    },
+    {
+      "name": "[variables('CDW-WUS-ADDS-RGNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "westus",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "CDW-WUS-ADDS-RGNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('CDW-WUS-ADDS-RGSubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('CDW-WUS-ADDS-RGName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('cdwwusaddssaName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('CDW-WUS-ADDS-RGNicName'))]"
+      ],
+      "tags": {
+        "displayName": "CDW-WUS-ADDS-RG"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('CDW-WUS-ADDS-RGVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('CDW-WUS-ADDS-RGName')]",
+          "adminUsername": "[parameters('CDW-WUS-ADDS-RGAdminUsername')]",
+          "adminPassword": "[parameters('CDW-WUS-ADDS-RGAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('CDW-WUS-ADDS-RGImagePublisher')]",
+            "offer": "[variables('CDW-WUS-ADDS-RGImageOffer')]",
+            "sku": "[parameters('CDW-WUS-ADDS-RGWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "CDW-WUS-ADDS-RGOSDisk",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', variables('cdwwusaddssaName')), '2016-01-01').primaryEndpoints.blob, variables('CDW-WUS-ADDS-RGStorageAccountContainerName'), '/', variables('CDW-WUS-ADDS-RGOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('CDW-WUS-ADDS-RGNicName'))]"
+            }
+          ]
+        }
+      }
+    }],
+  "outputs": {}
+}

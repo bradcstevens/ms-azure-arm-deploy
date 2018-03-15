@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CDW-WUS-ADDS-RG", "CDW-WUS-ADDS-RG\CDW-WUS-ADDS-RG.deployproj", "{272C70F1-8495-4D9D-9BE8-E38C7109681F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{272C70F1-8495-4D9D-9BE8-E38C7109681F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272C70F1-8495-4D9D-9BE8-E38C7109681F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272C70F1-8495-4D9D-9BE8-E38C7109681F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272C70F1-8495-4D9D-9BE8-E38C7109681F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2D6957E-9CCA-49D1-AEAB-54080A50BD1F}
+	EndGlobalSection
+EndGlobal
